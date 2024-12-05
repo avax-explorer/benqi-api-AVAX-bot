@@ -1,4 +1,3 @@
-# benqi-api-AVAX-bot
 # Benqi Crypto Bot for Avalanche
 
 This is a Python-based bot designed to interact with the **Benqi** protocol on the **Avalanche blockchain**. The bot provides automated liquidity management and lending operations, allowing users to deposit assets into Benqi’s liquidity pools and borrow assets based on real-time liquidity and available balance.
