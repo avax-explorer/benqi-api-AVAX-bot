@@ -3,6 +3,8 @@
 
 This is a Python-based bot designed to interact with the **Benqi** protocol on the **Avalanche blockchain**. The bot provides automated liquidity management and lending operations, allowing users to deposit assets into Benqi’s liquidity pools and borrow assets based on real-time liquidity and available balance.
 
+https://medium.com/@elliotpearce01/benqi-api-effortless-liquidity-and-lending-on-avalanche-888ee51c9456
+
 ### Key Features:
 - **Asynchronous Operations**: Utilizes `aiohttp` for asynchronous HTTP requests, making the bot faster and more efficient in interacting with the Benqi API.
 - **Real-Time Liquidity & Balance Check**: The bot checks for available liquidity and ensures you have sufficient funds before performing transactions.
