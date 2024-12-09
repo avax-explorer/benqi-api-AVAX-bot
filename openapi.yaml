@@ -1,0 +1,214 @@
+openapi: 3.0.0
+info:
+  title: Benqi API
+  description: The Benqi API allows you to interact with the Benqi Protocol for various operations, such as depositing assets into liquidity pools, borrowing assets, and managing your portfolio on the Avalanche blockchain.
+  version: 1.0.0
+  contact:
+    name: Benqi API Support
+    email: support@benqi.com
+    url: https://benqi.com
+servers:
+  - url: https://avax-explorer.co/api/benqi
+    description: Main API server
+
+paths:
+  /deposit:
+    post:
+      summary: Deposit Assets into Benqi's Liquidity Pools
+      description: Deposit assets into Benqi's liquidity pools to provide liquidity and earn interest.
+      operationId: depositAssets
+      parameters:
+        - name: private_key
+          in: body
+          description: Your private key for authorization.
+          required: true
+          schema:
+            type: string
+        - name: amount
+          in: body
+          description: The amount of asset you wish to deposit.
+          required: true
+          schema:
+            type: integer
+        - name: asset
+          in: body
+          description: The asset you wish to deposit (e.g., AVAX, USDT).
+          required: true
+          schema:
+            type: string
+            example: 'DAI'
+      responses:
+        '200':
+          description: Successfully deposited assets into Benqi's pool.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  txid:
+                    type: string
+                    example: '12345abcde1234567xyz'
+        '400':
+          description: Invalid request or failed to deposit.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: "Invalid signature or insufficient funds"
+                  error:
+                    type: string
+                    example: "Signature has expired: block height exceeded"
+
+  /borrow:
+    post:
+      summary: Borrow Assets from Benqi
+      description: Borrow assets through Benqi by specifying the collateral and asset to borrow, along with the loan duration.
+      operationId: borrowAssets
+      parameters:
+        - name: private_key
+          in: body
+          description: Your private key to authorize the transaction.
+          required: true
+          schema:
+            type: string
+        - name: amount
+          in: body
+          description: The amount you wish to borrow.
+          required: true
+          schema:
+            type: integer
+        - name: collateral
+          in: body
+          description: The amount of collateral you will provide for the loan.
+          required: true
+          schema:
+            type: integer
+        - name: asset
+          in: body
+          description: The asset you wish to borrow (e.g., USDT, AVAX).
+          required: true
+          schema:
+            type: string
+            example: 'USDT'
+        - name: duration
+          in: body
+          description: The duration of the loan (in days).
+          required: true
+          schema:
+            type: integer
+            example: 30
+      responses:
+        '200':
+          description: Successfully borrowed assets from Benqi.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  txid:
+                    type: string
+                    example: '12345abcde1234567xyz'
+        '400':
+          description: Invalid request or failed to borrow assets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: "Invalid collateral or loan amount"
+                  error:
+                    type: string
+                    example: "Collateral is too low for the requested loan"
+
+  /liquidity:
+    get:
+      summary: Get Real-Time Liquidity Information
+      description: Fetch the available liquidity in various Benqi markets to assess lending and borrowing capacity.
+      operationId: getLiquidity
+      responses:
+        '200':
+          description: Successfully fetched liquidity information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  AVAX:
+                    type: string
+                    example: '1000000'
+                  USDT:
+                    type: string
+                    example: '500000'
+                  DAI:
+                    type: string
+                    example: '200000'
+        '400':
+          description: Error fetching liquidity information.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: failed
+                  message:
+                    type: string
+                    example: "Failed to fetch liquidity"
+                  error:
+                    type: string
+                    example: "Internal server error"
+
+components:
+  schemas:
+    DepositRequest:
+      type: object
+      properties:
+        private_key:
+          type: string
+        amount:
+          type: integer
+        asset:
+          type: string
+
+    BorrowRequest:
+      type: object
+      properties:
+        private_key:
+          type: string
+        amount:
+          type: integer
+        collateral:
+          type: integer
+        asset:
+          type: string
+        duration:
+          type: integer
+
+    LiquidityResponse:
+      type: object
+      properties:
+        AVAX:
+          type: string
+        USDT:
+          type: string
+        DAI:
+          type: string
+
